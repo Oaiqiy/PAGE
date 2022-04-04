@@ -46,3 +46,13 @@ Access object: handle pointer and direct pointer.
 
 Reachability Analysis.
 
+Object priority allocation in Eden.
+
+## Class File Structure
+
+Class file is a binary stream based on 8 bytes.
+
+Class file is a structure like C language, which has only two data types: *unsigned number* and *table*.
+
+- Unsigned number is basic data type, u1 u2 u4 u8 express 1 byte, 2 byte2, 4 bytes, 8 bytes. Unsigned number can be used to describe number, index, count, and build string as UTF-8.
+- Table is composed by unsigned number or other table. All tables are named ending with "_info".

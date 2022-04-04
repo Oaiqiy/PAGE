@@ -6,8 +6,6 @@ tags: ["database"]
 categories: ["note"]
 ---
 
-# REDIS
-
 ## Keyword
 
 1. `KEYS pattern`  (glob wildcard)
@@ -297,9 +295,13 @@ categories: ["note"]
 
 #### AOF
 
-`appendonly yes` 
+`appendonly yes`
 
 ### Cluster
 
 #### Replication
+
+## Design And Implementation
+
+### Simple Dynamic String
 

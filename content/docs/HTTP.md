@@ -179,7 +179,7 @@ Request Header Field
 * Max-Forwards
 * Proxy-Authorization
 * Range
-* Referer
+* Reference
 * TE
 * User-Agent
 

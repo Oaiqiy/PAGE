@@ -44,7 +44,68 @@ Access object: handle pointer and direct pointer.
 
 ## Garbage Collection
 
-Reachability Analysis.
+### Determining whether an object is alive or not
+
+Reference Counting. (not in java)
+
+Reachability Analysis.(Java C#)
+
+GC Roots include
+
+Fixed as GC Roots:
+
+- Objects iin vm stack. Parameters, local variables, temporary variables.
+- static reference object in method area.
+- constant reference object in method area. Reference in String Table.
+- JNI in local method stack.
+- Reference in JVM. Basic data types' Class Object, permanent Exception Object, and system class loader.
+- Object held by synchronized.
+- Callbacks register in JMXBean, JVMTI, local code cache.
+
+And other temporary object according to GC and memory area.
+
+#### Reference
+
+- Strongly Reference
+- Soft Reference
+- Weak Reference
+- Phantom Reference
+
+#### Alive or not
+
+method `finalize()` (not recommended)
+
+#### Collect method area
+
+Deprecated constants and Type no longer in use.
+
+Judge if a type is no longer in use:
+
+- The class's all examples are collected.
+- The class's loader is collected.
+- The java.lang.Class object for the class counterpart isn't referenced.
+
+### GC Algorithms
+
+#### Generational Collection Theory
+
+1. Weak Generational Hypothesis: The vast majority of objects are born and die.
+2. Strong Generational Hypothesis: The more times an object survives the rubbish collection process, the more difficult it is to die.
+3. Intergenerational Reference Hypothesis: Compared to same generation reference, Intergenerational reference is only a minority.
+
+Consistent design principles: Collector should divide heap into different areas. And assign objects to different areas according to their age.
+
+In commercial JVM, designer usually divide heap into at least two areas, Young Generation and Old Generation.
+
+Partial GC:
+
+- Minor GC/Young GC
+- Major GC/Old GC
+- Mixed GC
+
+FUll GC: collect all the heap
+
+
 
 Object priority allocation in Eden.
 

@@ -114,6 +114,8 @@ Executor has three status in lifecycle,running, closed, terminated.
 
 ## Cancel and Close
 
+Java doesn't apply any mechanisms to stop thread safely. And should avoid using `Thread.stop` ro `suspend`.
+
 ### Task cancel
 
 cancel reasons:
@@ -129,6 +131,10 @@ interrupt methods:
 * response interrupt (wait, sleep)
 * use Future implement cancel
 
+Calling `interrupt` doesn't mean the thread stops its work immediately, rather than send a message of requesting interrupt.
+
+Usually interrupt is the best method to implement cancel.z
+
 uninterrupted block
 
 1. Java.io sync Socket I/O
@@ -141,4 +147,108 @@ package standard cancel operation to process uninterrupted block.
 use `newTaskFor` to package substandard cancel
 
 ### Stop service based on thread
+
+For the service holding threads, as long as the service's existing time is longer than the threads', the service should apply lifecycle methods.
+
+## Thread Pool
+
+### Implicit Coupling between Tasks and Execution Strategies
+
+tasks need specified execution strategies
+
+1. dependent tasks
+2. tasks using thread closure
+3. time sensitive tasks
+
+Thread pool problems:
+
+1. Deadlock
+2. long-time tasks
+
+### Set Thread Pool size
+
+W/C = ratio of wait time to compute time
+
+N(threads) = N(cpu) \* U(cpu) \* (1 + W / C)
+
+`int N_CPUs = Runtime.getRuntime().availableProcessors();`
+
+### Configure ThreadPoolExecutor
+
+```java
+public ThreadPoolExecutor(int corePoolSize,
+                            int maximumPoolSize,
+                            long keepAliveTime,
+                            TimeUnit unit,
+                            BlockingQueue<Runnable> workQueue,
+                            ThreadFactory threadFactory,
+                            RejectedExecutionHandler handler) 
+```
+
+`int corePoolSize` basic size
+
+`BlockingQueue workQueue` has three basic kinds
+
+1. boundless queue: boundless `LinkedBlockingQueue` in `newFixedThreadPool` and `newSingleThreadExecutor`
+2. bounded queue: `ArrayBlockingQueue`, bounded `LinkedBlockingQueue`, `PriorityBlockingQueue`
+3. `SynchronousQueue` only in boundless thread pool or rejected pool.
+
+`RejectedExecutionHandler handler` when queue is filled up, saturation strategy takes effect.
+
+* `Abort` default strategy. throw `RejectedExecutionException`
+* `Discard` discard this task
+* `Discard-Oldest` discard next task, and submit this task again
+* `Caller-Runs`run task in this thread
+
+`ThreadFactory threadFactory` custom threads
+
+### Expand ThreadPoolExecutor
+
+`BeforeExecute` `afterExecute` `terminated`
+
+### Concurrent Recursion
+
+DFS
+
+## GUI Application
+
+separate threads for GUI and task.
+
+## Avoid Active Hazards
+
+### Deadlock
+
+1. lock sequence deadlock: change to the same sequence
+2. dynamic lock sequence deadlock: use some methods like hash to control lock sequence.
+3. deadlock between collaborating objects: open call, only protect code blocks about concurrent.
+
+avoid deadlock:
+
+1. use time lock
+2. use Thread Dump to analyze
+
+### Other Hazards
+
+1. Starvation
+2. Terrible Responsiveness
+3. LiveLock
+
+## Performance and Scalability
+
+### Thread overhead
+
+1. context switch
+2. memory sync
+3. block
+
+### Reduce Lock Competition
+
+1. reduce lock's scope
+2. reduce lock's granularity
+3. lock segment
+4. avoid hot spot area
+5. give up exclusive lock
+6. monitor CPU usage
+7. don't use object pool
+8. reduce context switch's overhead
 

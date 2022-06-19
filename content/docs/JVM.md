@@ -54,7 +54,7 @@ GC Roots include
 
 Fixed as GC Roots:
 
-- Objects iin vm stack. Parameters, local variables, temporary variables.
+- Objects in vm stack. Parameters, local variables, temporary variables.
 - static reference object in method area.
 - constant reference object in method area. Reference in String Table.
 - JNI in local method stack.
@@ -105,9 +105,21 @@ Partial GC:
 
 FUll GC: collect all the heap
 
+#### Algorithms
 
+**Mark-Sweep** Mark all need collect or alive objects, then collect objects. It's the most basic collection algorithms. It has two main disadvantages: First it's execution efficiency is unstable, Second is memory fragmentation.
 
-Object priority allocation in Eden.
+**Mark-Copy** Disadvantage is only half memory is usable. Most of commercial JVM use this algorithm to collect young generation. HotSpot vm's Serial\ParNew young collector use a kind of more efficient method, "Appel Collection". This method divide young generation into a big Eden space, and two small Survivor space. When collecting, copy alive objects in Eden and one of Survivors to other survivor. The ratio of Eden and Survivor is 8:1. So the available memory is 90%.Object priority allocation in Eden.
+
+**Mark-Compact** Used in Old generation.
+
+### HotSpot Algorithms Details Implement
+
+#### GC Roots Enumeration
+
+By now every collector need pause user threads when GC roots enumeration.
+
+#### Safepoint
 
 ## Class File Structure
 

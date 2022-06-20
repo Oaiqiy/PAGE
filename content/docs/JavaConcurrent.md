@@ -252,3 +252,34 @@ avoid deadlock:
 7. don't use object pool
 8. reduce context switch's overhead
 
+## Explicit Lock
+
+### ReentrantLock
+
+`ReentrantLock` implement `Lock` interface, and apply the same mutual exclusivity and memory visibility as `synchronized`
+
+choose between `synchronized` and `ReentrantLock`: Choose `ReentrantLock` when need some advanced functions include timed, pollable, interruptible, fair queue, and non-block structure.
+
+### Read-Write Lock
+
+`ReadWriteLock`
+
+## Custom Sync Tool
+
+### Condition Queue
+
+`wait()` `notify()` `notifyAll()` a queue of threads wait for some specified conditions to be true.
+
+usually use `notifyAll()`, use `notify()` when:
+
+1. all threads use the same **condition**
+2. single in and out
+
+### Explicit Condition Object
+
+Like `ReentrantLock` with `Lock`, `Condition` is kind of general condition queue.
+
+## Synchronizer
+
+`ReentrantLock` and `Semaphore` use `AbstractQueuedSynchronized` to implement fair and unfair lock.
+

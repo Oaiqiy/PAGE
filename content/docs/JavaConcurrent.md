@@ -279,7 +279,42 @@ usually use `notifyAll()`, use `notify()` when:
 
 Like `ReentrantLock` with `Lock`, `Condition` is kind of general condition queue.
 
-## Synchronizer
+### Synchronizer
 
 `ReentrantLock` and `Semaphore` use `AbstractQueuedSynchronized` to implement fair and unfair lock.
 
+### AQS
+
+TODO
+
+## Atomic Variable and non-block sync
+
+### Disadvantages of Lock
+
+schedule overhead
+
+### Hardware's support for Concurrent
+
+#### CAS
+
+When many threads try use CAS change a variable, only one can success.
+
+### Atomic Variable Class
+
+![Atomic Variable classes](https://raw.githubusercontent.com/Oaiqiy/PicGoRepo/main/20220621220614.png)
+
+`Atomic Variable` is a kind of gooder `volatile`
+
+### Non-Block Algorithms
+
+Treiber Algorithms
+
+[20220621221128](https://raw.githubusercontent.com/Oaiqiy/PicGoRepo/main/20220621221128.png)
+
+Michael-Scott Algorithms
+
+![20220621222010](https://raw.githubusercontent.com/Oaiqiy/PicGoRepo/main/20220621222010.png)
+
+ABA problem: when use CAS, variable change from A to, and form B to A.
+
+solve: use `AtomicStampedReference` or `AtomicMarkableReference`

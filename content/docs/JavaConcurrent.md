@@ -309,7 +309,7 @@ When many threads try use CAS change a variable, only one can success.
 
 Treiber Algorithms
 
-[20220621221128](https://raw.githubusercontent.com/Oaiqiy/PicGoRepo/main/20220621221128.png)
+![20220621221128](https://raw.githubusercontent.com/Oaiqiy/PicGoRepo/main/20220621221128.png)
 
 Michael-Scott Algorithms
 
@@ -318,3 +318,8 @@ Michael-Scott Algorithms
 ABA problem: when use CAS, variable change from A to, and form B to A.
 
 solve: use `AtomicStampedReference` or `AtomicMarkableReference`
+
+## Java Memory Model
+
+from *Deeper Understanding JVM*
+
